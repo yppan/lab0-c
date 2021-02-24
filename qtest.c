@@ -11,6 +11,7 @@
 #include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
+
 #include "dudect/fixture.h"
 
 /* Our program needs to use regular malloc/free */
@@ -29,9 +30,8 @@
  * OK as long as head field of queue_t structure is in first position in
  * solution code
  */
-#include "queue.h"
-
 #include "console.h"
+#include "queue.h"
 #include "report.h"
 
 /* Settable parameters */

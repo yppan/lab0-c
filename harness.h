@@ -4,7 +4,7 @@
 #include <setjmp.h>
 #include <stdarg.h>
 #include <stdbool.h>
-
+#include <stddef.h>
 /*
  * This test harness enables us to do stringent testing of code.
  * It overloads the library versions of malloc and free with ones that

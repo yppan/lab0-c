@@ -3,6 +3,7 @@
 
 #include <stdarg.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 /* Default reporting level.  Must recompile when change */
 #ifndef RPT
