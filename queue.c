@@ -24,7 +24,6 @@ queue_t *q_new()
 /* Free all storage used by queue */
 void q_free(queue_t *q)
 {
-    /* Free queue structure */
     if (!q) {
         return;
     }
@@ -48,11 +47,26 @@ bool q_insert_head(queue_t *q, char *s)
 {
     list_ele_t *newh;
     /* TODO: What should you do if the q is NULL? */
+    if (!q) {
+        return false;
+    }
     newh = malloc(sizeof(list_ele_t));
-    /* Don't forget to allocate space for the string and copy it */
-    /* What if either call to malloc returns NULL? */
+    if (!newh) {
+        return false;
+    }
+    size_t length = strlen(s) + 1;
+    newh->value = (char *) malloc(length * sizeof(char));
+    if (!newh->value) {
+        free(newh);
+        return false;
+    }
+    snprintf(newh->value, length, "%s", s);
     newh->next = q->head;
     q->head = newh;
+    if (!q->tail) {
+        q->tail = newh;
+    }
+    q->size++;
     return true;
 }
 
