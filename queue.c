@@ -92,10 +92,10 @@ bool q_insert_tail(queue_t *q, char *s)
     size_t s_len = strlen(s) + 1;
     newt->value = (char *) malloc(s_len * sizeof(char));
     if (!newt->value) {
-        free(newh);
+        free(newt);
         return false;
     }
-    newt->tail = NULL;
+    newt->next = NULL;
     snprintf(newt->value, s_len, "%s", s);
     q->size++;
     if (!q->tail) {
