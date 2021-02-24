@@ -45,7 +45,7 @@ void q_free(queue_t *q)
  */
 bool q_insert_head(queue_t *q, char *s)
 {
-    list_ele_t *newh;
+    list_ele_t *newh;  // means new element in head
     if (!q) {
         return false;
     }
@@ -81,7 +81,7 @@ bool q_insert_tail(queue_t *q, char *s)
     if (!q) {
         return false;
     }
-    list_ele_t *newt;
+    list_ele_t *newt;  // means new element in tail
     newt = malloc(sizeof(list_ele_t));
     if (!newt) {
         return false;
@@ -160,6 +160,47 @@ void q_reverse(queue_t *q)
     return;
 }
 
+void merge_sort(list_ele_t **head)
+{
+    if (!(*head) || !((*head)->next)) {
+        return;
+    }
+
+    list_ele_t *l1 = (*head)->next;  // faster pointer
+    list_ele_t *l2 = *head;          // slower pointer
+
+    // split list by moving l1 l2 in different speed
+    while (l1 && l1->next) {
+        l2 = l2->next;
+        l1 = l1->next->next;
+    }
+    l1 = l2->next;
+    l2->next = NULL;
+    l2 = *head;
+
+    // Recursively split until each list exist one element
+    merge_sort(&l2);  // the left linked list
+    merge_sort(&l1);  // the right linked list
+
+    // merge sorted l1 and sorted l2
+    // reuse head to record the head of new list
+    *head = NULL;
+    list_ele_t **tmp = head;
+
+    while (l1 && l2) {
+        if (strcmp(l1->value, l2->value) < 0) {  // l1 < l2
+            *tmp = l1;
+            l1 = l1->next;
+        } else {
+            *tmp = l2;
+            l2 = l2->next;
+        }
+        tmp = &((*tmp)->next);
+    }
+
+    // Either l1 or l2 will left
+    *tmp = l1 ? l1 : l2;
+}
 /*
  * Sort elements of queue in ascending order
  * No effect if q is NULL or empty. In addition, if q has only one
@@ -167,6 +208,15 @@ void q_reverse(queue_t *q)
  */
 void q_sort(queue_t *q)
 {
-    /* TODO: You need to write the code for this function */
-    /* TODO: Remove the above comment when you are about to implement. */
+    if (!q || q->size == 1) {
+        return;
+    }
+
+    // Merge sort
+    merge_sort(&q->head);
+
+    // locate tail pointed to the last element of the list
+    while (q->tail->next) {
+        q->tail = q->tail->next;
+    }
 }
