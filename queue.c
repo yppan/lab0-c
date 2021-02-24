@@ -46,7 +46,6 @@ void q_free(queue_t *q)
 bool q_insert_head(queue_t *q, char *s)
 {
     list_ele_t *newh;
-    /* TODO: What should you do if the q is NULL? */
     if (!q) {
         return false;
     }
@@ -54,19 +53,19 @@ bool q_insert_head(queue_t *q, char *s)
     if (!newh) {
         return false;
     }
-    size_t length = strlen(s) + 1;
-    newh->value = (char *) malloc(length * sizeof(char));
+    size_t s_len = strlen(s) + 1;
+    newh->value = (char *) malloc(s_len * sizeof(char));
     if (!newh->value) {
         free(newh);
         return false;
     }
-    snprintf(newh->value, length, "%s", s);
+    snprintf(newh->value, s_len, "%s", s);
+    q->size++;
     newh->next = q->head;
     q->head = newh;
     if (!q->tail) {
         q->tail = newh;
     }
-    q->size++;
     return true;
 }
 
@@ -82,7 +81,32 @@ bool q_insert_tail(queue_t *q, char *s)
     /* TODO: You need to write the complete code for this function */
     /* Remember: It should operate in O(1) time */
     /* TODO: Remove the above comment when you are about to implement. */
-    return false;
+    if (!q) {
+        return false;
+    }
+    list_ele_t *newt;
+    newt = malloc(sizeof(list_ele_t));
+    if (!newt) {
+        return false;
+    }
+    size_t s_len = strlen(s) + 1;
+    newt->value = (char *) malloc(s_len * sizeof(char));
+    if (!newt->value) {
+        free(newh);
+        return false;
+    }
+    newt->tail = NULL;
+    snprintf(newt->value, s_len, "%s", s);
+    q->size++;
+    if (!q->tail) {
+        q->tail = newt;
+        q->head = newt;
+        return true;
+    }
+    q->tail->next = newt;
+    q->tail = newt;
+
+    return true;
 }
 
 /*
