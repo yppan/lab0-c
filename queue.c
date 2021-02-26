@@ -228,7 +228,7 @@ void merge_sort(list_ele_t **head)
  */
 void q_sort(queue_t *q)
 {
-    if (!q || q->size == 1) {
+    if (!q || !q->head || q->size == 1) {
         return;
     }
 
