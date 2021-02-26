@@ -45,11 +45,12 @@ void q_free(queue_t *q)
  */
 bool q_insert_head(queue_t *q, char *s)
 {
-    list_ele_t *newh;  // means new element in head
     if (!q) {
         return false;
     }
+    list_ele_t *newh;  // means new element in head
     newh = malloc(sizeof(list_ele_t));
+
     if (!newh) {
         return false;
     }
